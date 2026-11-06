@@ -1,0 +1,33 @@
+/* ══════════════════════════════════════════════════════════════════════
+   tenisfree.css — Estilos específicos da área de produtos
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Badges de estoque na listagem */
+.tf-stock-badge {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+
+/* Hover de linha de tabela (caso use tabela no futuro) */
+.tf-table-list tbody tr:hover {
+  background-color: rgba(255, 102, 0, .07);
+}
+
+/* Animação de entrada dos cards */
+@keyframes tfFadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.tf-product-card {
+  animation: tfFadeInUp .3s ease both;
+}
+
+/* Delay escalonado para os primeiros cards */
+.col-sm-6:nth-child(1) .tf-product-card { animation-delay: .05s; }
+.col-sm-6:nth-child(2) .tf-product-card { animation-delay: .10s; }
+.col-sm-6:nth-child(3) .tf-product-card { animation-delay: .15s; }
+.col-sm-6:nth-child(4) .tf-product-card { animation-delay: .20s; }
+.col-sm-6:nth-child(5) .tf-product-card { animation-delay: .25s; }
+.col-sm-6:nth-child(6) .tf-product-card { animation-delay: .30s; }

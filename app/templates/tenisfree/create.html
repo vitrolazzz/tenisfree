@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Novo Produto{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tenisfree.css') }}" />
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Cabeçalho -->
+            <div class="mb-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb tf-breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Início</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('tenisfree.listar') }}">Produtos</a></li>
+                        <li class="breadcrumb-item active">Novo Produto</li>
+                    </ol>
+                </nav>
+                <h2 class="tf-section-title">
+                    <i class="bi bi-plus-circle me-2 text-warning"></i>Cadastrar Novo Produto
+                </h2>
+            </div>
+
+            <!-- Formulário -->
+            <div class="card tf-form-card">
+                <div class="card-body p-4">
+                    <form method="post" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <div class="row g-3">
+                            <!-- Nome -->
+                            <div class="col-12">
+                                {{ form.nome.label(class="form-label tf-label") }}
+                                {{ form.nome(class="form-control tf-input" + (" is-invalid" if form.nome.errors else ""),
+                                             placeholder="Ex.: Air Max 270") }}
+                                {% for erro in form.nome.errors %}
+                                <div class="invalid-feedback">{{ erro }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Marca + Categoria -->
+                            <div class="col-sm-6">
+                                {{ form.marca.label(class="form-label tf-label") }}
+                                {{ form.marca(class="form-control tf-input" + (" is-invalid" if form.marca.errors else ""),
+                                              placeholder="Ex.: Nike") }}
+                                {% for erro in form.marca.errors %}
+                                <div class="invalid-feedback">{{ erro }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-sm-6">
+                                {{ form.categoria.label(class="form-label tf-label") }}
+                                {{ form.categoria(class="form-select tf-input" + (" is-invalid" if form.categoria.errors else "")) }}
+                                {% for erro in form.categoria.errors %}
+                                <div class="invalid-feedback">{{ erro }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Tamanho + Cor -->
+                            <div class="col-sm-6">
+                                {{ form.tamanho.label(class="form-label tf-label") }}
+                                {{ form.tamanho(class="form-select tf-input" + (" is-invalid" if form.tamanho.errors else "")) }}
+                                {% for erro in form.tamanho.errors %}
+                                <div class="invalid-feedback">{{ erro }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-sm-6">
+                                {{ form.cor.label(class="form-label tf-label") }}
+                                {{ form.cor(class="form-control tf-input" + (" is-invalid" if form.cor.errors else ""),
+                                            placeholder="Ex.: Preto/Laranja") }}
+                                {% for erro in form.cor.errors %}
+                                <div class="invalid-feedback">{{ erro }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Preço + Estoque -->
+                            <div class="col-sm-6">
+                                {{ form.preco.label(class="form-label tf-label") }}
+                                <div class="input-group">
+                                    <span class="input-group-text tf-input-addon">R$</span>
+                                    {{ form.preco(class="form-control tf-input" + (" is-invalid" if form.preco.errors else ""),
+                                                  placeholder="0,00", step="0.01") }}
+                                </div>
+                                {% for erro in form.preco.errors %}
+                                <div class="text-danger small mt-1">{{ erro }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-sm-6">
+                                {{ form.estoque.label(class="form-label tf-label") }}
+                                {{ form.estoque(class="form-control tf-input" + (" is-invalid" if form.estoque.errors else ""),
+                                                placeholder="0") }}
+                                {% for erro in form.estoque.errors %}
+                                <div class="invalid-feedback">{{ erro }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Descrição -->
+                            <div class="col-12">
+                                {{ form.descricao.label(class="form-label tf-label") }}
+                                {{ form.descricao(class="form-control tf-input" + (" is-invalid" if form.descricao.errors else ""),
+                                                  rows=4, placeholder="Descreva o produto…") }}
+                                {% for erro in form.descricao.errors %}
+                                <div class="invalid-feedback">{{ erro }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- URL da imagem -->
+                            <div class="col-12">
+                                {{ form.imagem_url.label(class="form-label tf-label") }}
+                                {{ form.imagem_url(class="form-control tf-input" + (" is-invalid" if form.imagem_url.errors else ""),
+                                                   placeholder="https://exemplo.com/imagem.jpg",
+                                                   id="imgUrlInput") }}
+                                {% for erro in form.imagem_url.errors %}
+                                <div class="invalid-feedback">{{ erro }}</div>
+                                {% endfor %}
+                                <!-- Preview da imagem -->
+                                <div class="mt-2" id="imgPreviewWrap" style="display:none;">
+                                    <img id="imgPreview" src="" alt="Preview" class="img-thumbnail tf-img-preview" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botões -->
+                        <div class="d-flex gap-3 mt-4">
+                            {{ form.submit(class="btn tf-btn-hero-primary px-5") }}
+                            <a href="{{ url_for('tenisfree.listar') }}" class="btn btn-outline-secondary px-4">
+                                Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/tenisfree.js') }}"></script>
+{% endblock %}

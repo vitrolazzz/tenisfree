@@ -1,0 +1,42 @@
+# ── Python ────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+
+# ── Ambientes virtuais ────────────────────────────────────────────────
+venv/
+.venv/
+env/
+.env/
+
+# ── Variáveis de ambiente (segredos) ─────────────────────────────────
+.env
+
+# ── Banco de dados local ──────────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+
+# ── Flask / Werkzeug ──────────────────────────────────────────────────
+instance/
+.webassets-cache
+
+# ── Testes ────────────────────────────────────────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# ── IDEs ──────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Distribuição ──────────────────────────────────────────────────────
+dist/
+build/
+*.egg-info/

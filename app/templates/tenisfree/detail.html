@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}{{ produto.nome }}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tenisfree.css') }}" />
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb tf-breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Início</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('tenisfree.listar') }}">Produtos</a></li>
+            <li class="breadcrumb-item active">{{ produto.nome }}</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <!-- Imagem -->
+        <div class="col-md-5">
+            <div class="tf-detail-img-wrap rounded overflow-hidden">
+                {% if produto.imagem_url %}
+                <img src="{{ produto.imagem_url }}" class="img-fluid w-100" alt="{{ produto.nome }}"
+                     onerror="this.src='https://placehold.co/600x420/1a1a1a/ff6600?text=Sem+Imagem';" />
+                {% else %}
+                <div class="tf-product-img-placeholder tf-product-img-placeholder--lg d-flex align-items-center justify-content-center">
+                    <i class="bi bi-image text-muted" style="font-size:5rem;"></i>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Detalhes -->
+        <div class="col-md-7">
+            <span class="tf-badge-categoria mb-2 d-inline-block">{{ produto.categoria }}</span>
+            <h1 class="tf-detail-title">{{ produto.nome }}</h1>
+            <p class="tf-detail-marca text-muted mb-3">{{ produto.marca }}</p>
+
+            <div class="tf-detail-price mb-1">
+                R$ {{ "%.2f"|format(produto.preco) }}
+            </div>
+            <div class="tf-detail-installment text-muted small mb-4">
+                ou 6x de <strong class="text-white">R$ {{ "%.2f"|format((produto.preco / 6)|round(2)) }}</strong> sem juros
+            </div>
+
+            <!-- Botões Comprar e Adicionar ao Carrinho -->
+            <div class="d-flex gap-3 mb-4 flex-wrap">
+                <button type="button" class="btn tf-btn-buy flex-grow-1 py-3 px-4 fw-bold">
+                    <i class="bi bi-bag-check-fill me-2"></i>Comprar Agora
+                </button>
+                <button type="button" class="btn tf-btn-cart py-3 px-4 fw-bold">
+                    <i class="bi bi-cart-plus me-2"></i>Adicionar ao Carrinho
+                </button>
+            </div>
+
+            <table class="table tf-table-spec mb-4">
+                <tbody>
+                    <tr>
+                        <th>Tamanho (BR)</th>
+                        <td>{{ produto.tamanho }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cor</th>
+                        <td>{{ produto.cor }}</td>
+                    </tr>
+                    <tr>
+                        <th>Estoque</th>
+                        <td>
+                            {% if produto.estoque == 0 %}
+                            <span class="badge bg-danger">Sem estoque</span>
+                            {% elif produto.estoque <= 3 %}
+                            <span class="badge bg-warning text-dark">{{ produto.estoque }} un. (baixo)</span>
+                            {% else %}
+                            <span class="badge bg-success">{{ produto.estoque }} unidades</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Cadastrado em</th>
+                        <td>{{ produto.criado_em.strftime('%d/%m/%Y %H:%M') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Atualizado em</th>
+                        <td>{{ produto.atualizado_em.strftime('%d/%m/%Y %H:%M') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            {% if produto.descricao %}
+            <div class="tf-detail-descricao mb-4">
+                <h5>Descrição</h5>
+                <p>{{ produto.descricao }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Ações -->
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ url_for('tenisfree.editar', produto_id=produto.id) }}"
+                   class="btn tf-btn-hero-primary">
+                    <i class="bi bi-pencil-square me-1"></i>Editar
+                </a>
+
+                <!-- Botão que abre modal de confirmação -->
+                <button type="button" class="btn btn-outline-danger"
+                        data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                    <i class="bi bi-trash3 me-1"></i>Excluir
+                </button>
+
+                <a href="{{ url_for('tenisfree.listar') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>Voltar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ MODAL DE CONFIRMAÇÃO DE EXCLUSÃO ════════════════════════════════ -->
+<div class="modal fade" id="modalExcluir" tabindex="-1"
+     aria-labelledby="modalExcluirLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content tf-modal">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="modalExcluirLabel">
+                    <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                    Confirmar Exclusão
+                </h5>
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir o produto
+                <strong>{{ produto.nome }}</strong>?
+                Esta ação é <span class="text-danger">irreversível</span>.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">Cancelar</button>
+
+                <form action="{{ url_for('tenisfree.excluir', produto_id=produto.id) }}"
+                      method="post" class="d-inline">
+                    {{ csrf_token() | safe if csrf_token is defined else '' }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash3 me-1"></i>Excluir definitivamente
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/tenisfree.js') }}"></script>
+{% endblock %}
