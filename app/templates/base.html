@@ -28,7 +28,7 @@
     <div class="container">
         <!-- Brand -->
         <a class="navbar-brand tf-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
-            <img src="{{ url_for('static', filename='images/logo_dark_theme.png') }}" alt="TenisFree" class="tf-logo-nav me-2" />
+            <img src="{{ url_for('static', filename='images/logo_dark_theme.png') }}?v=2" alt="TenisFree" class="tf-logo-nav me-2" />
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -66,6 +66,28 @@
             <a href="{{ url_for('tenisfree.criar') }}" class="btn tf-btn-add ms-3">
                 <i class="bi bi-plus-circle me-1"></i>Novo Produto
             </a>
+
+            <div class="dropdown tf-account-dropdown ms-3">
+                <div class="btn tf-account-button" aria-disabled="true">
+                    <i class="bi bi-person-circle me-1"></i>Conta
+                </div>
+                <ul class="dropdown-menu dropdown-menu-end tf-account-menu">
+                    {% if session.get("conta_id") %}
+                    <li><span class="dropdown-item-text px-3 fw-semibold">{{ session.get("conta_nome") }}</span></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form method="post" action="{{ url_for('contas.sair') }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <button class="dropdown-item text-danger" type="submit">Sair</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li><a class="dropdown-item" href="{{ url_for('contas.entrar') }}">Entrar</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ url_for('contas.criar') }}">Criar conta</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
@@ -96,7 +118,7 @@
 <footer class="tf-footer">
     <div class="container text-center">
         <div class="mb-2">
-            <img src="{{ url_for('static', filename='images/logo_dark_theme.png') }}" alt="TenisFree" class="tf-logo-footer" />
+            <img src="{{ url_for('static', filename='images/logo_dark_theme.png') }}?v=2" alt="TenisFree" class="tf-logo-footer" />
         </div>
         <p class="mb-1 text-muted">O seu marketplace de tênis</p>
         <small class="text-muted">© {{ 2026 }} TenisFree. Todos os direitos reservados.</small>

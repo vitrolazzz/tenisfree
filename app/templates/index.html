@@ -64,7 +64,8 @@
     <div class="row g-4">
         {% for produto in destaques %}
         <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="card tf-product-card h-100">
+            <a href="{{ url_for('tenisfree.detalhe', produto_id=produto.id) }}"
+               class="card tf-product-card tf-product-card-link h-100">
                 {% if produto.imagem_url %}
                 <img src="{{ produto.imagem_url }}" class="card-img-top tf-product-img"
                      alt="{{ produto.nome }}" onerror="this.src='https://placehold.co/400x280/1a1a1a/ff6600?text=Sem+Imagem';" />
@@ -79,13 +80,12 @@
                     <p class="text-muted small mb-1">{{ produto.marca }} &bull; Tam. {{ produto.tamanho }}</p>
                     <div class="mt-auto d-flex justify-content-between align-items-center pt-3">
                         <span class="tf-price">R$ {{ "%.2f"|format(produto.preco) }}</span>
-                        <a href="{{ url_for('tenisfree.detalhe', produto_id=produto.id) }}"
-                           class="btn btn-sm tf-btn-ver">
+                        <span class="btn btn-sm tf-btn-ver">
                             Ver <i class="bi bi-arrow-right ms-1"></i>
-                        </a>
+                        </span>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         {% endfor %}
     </div>

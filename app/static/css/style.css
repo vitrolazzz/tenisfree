@@ -21,13 +21,55 @@
 /* ── Reset / Base ───────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
 body {
   font-family: 'Montserrat', sans-serif;
   background-color: var(--tf-black);
+  background-image: linear-gradient(rgba(13, 13, 13, .72), rgba(13, 13, 13, .72)), url("../images/site-background.png?v=2");
+  background-position: center top;
+  background-repeat: repeat-y;
+  background-size: cover;
+  background-attachment: fixed;
   color: var(--tf-white);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.tf-btn-primary {
+  background-color: var(--tf-orange);
+  border-color: var(--tf-orange);
+  color: var(--tf-white);
+  font-weight: 700;
+}
+
+.tf-btn-primary:hover,
+.tf-btn-primary:focus {
+  background-color: var(--tf-orange-dark);
+  border-color: var(--tf-orange-dark);
+  color: var(--tf-white);
+}
+
+.tf-btn-recovery {
+  width: auto;
+  min-width: 185px;
+  padding: .4rem 1rem;
+  font-size: .82rem;
+  background-color: var(--tf-gray);
+  border-color: var(--tf-gray);
+  color: var(--tf-white);
+  font-weight: 600;
+}
+
+.tf-btn-recovery:hover,
+.tf-btn-recovery:focus {
+  background-color: #565e64;
+  border-color: #565e64;
+  color: var(--tf-white);
 }
 
 a { color: var(--tf-orange); text-decoration: none; }
@@ -47,15 +89,25 @@ a:hover { color: var(--tf-orange-light); }
 .tf-brand-free-footer { color: var(--tf-orange-light); }
 
 .tf-logo-nav {
-  height: 38px;
+  height: 48px;
   width: auto;
   object-fit: contain;
+  filter:
+    drop-shadow(1px 0 0 white)
+    drop-shadow(-1px 0 0 white)
+    drop-shadow(0 1px 0 white)
+    drop-shadow(0 -1px 0 white);
 }
 
 .tf-logo-footer {
-  height: 32px;
+  height: 38px;
   width: auto;
   object-fit: contain;
+  filter:
+    drop-shadow(1px 0 0 white)
+    drop-shadow(-1px 0 0 white)
+    drop-shadow(0 1px 0 white)
+    drop-shadow(0 -1px 0 white);
 }
 
 .tf-search-input {
@@ -90,6 +142,58 @@ a:hover { color: var(--tf-orange-light); }
 .tf-btn-add:hover {
   background-color: var(--tf-orange);
   color: var(--tf-white);
+}
+
+.tf-account-button {
+  color: var(--tf-white);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: var(--tf-radius);
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.tf-account-button:hover,
+.tf-account-button.show {
+  color: var(--tf-white);
+  border-color: var(--tf-orange);
+  background: rgba(255, 102, 0, .12);
+}
+
+.tf-account-menu {
+  min-width: 190px;
+  border: 1px solid rgba(255, 102, 0, .25);
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+  margin-top: 0 !important;
+  pointer-events: none;
+}
+
+.tf-account-dropdown:hover > .tf-account-menu,
+.tf-account-dropdown:focus-within > .tf-account-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.tf-account-disabled {
+  color: #9a9a9a;
+  cursor: default;
+  pointer-events: none;
+}
+
+.tf-simple-link {
+  color: var(--tf-muted);
+  text-decoration: none;
+  font-size: .9rem;
+}
+
+.tf-simple-link:hover {
+  color: var(--tf-orange);
+  text-decoration: underline;
 }
 
 /* ── Hero ───────────────────────────────────────────────────────────── */
@@ -181,6 +285,17 @@ a:hover { color: var(--tf-orange-light); }
   border-color: var(--tf-orange);
 }
 
+.tf-product-card-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tf-product-card-link:hover,
+.tf-product-card-link:focus-visible {
+  color: inherit;
+  text-decoration: none;
+}
+
 .tf-product-img {
   height: 220px;
   object-fit: cover;
@@ -261,6 +376,24 @@ a:hover { color: var(--tf-orange-light); }
 }
 
 /* ── Formulários ────────────────────────────────────────────────────── */
+.tf-auth-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tf-auth-heading .tf-section-title {
+  text-align: center;
+}
+
+.tf-auth-icon {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  margin-top: .75rem;
+}
+
 .tf-form-card {
   background-color: var(--tf-dark);
   border: 1px solid var(--tf-dark-3);

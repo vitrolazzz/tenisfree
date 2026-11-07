@@ -27,9 +27,11 @@ def create_app(config_name: str | None = None) -> Flask:
     # ── Registrar Blueprints ───────────────────────────────────────────────
     from app.routes.main_routes import main_bp
     from app.routes.tenisfree_routes import tenisfree_bp
+    from app.routes.contas_routes import contas_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(tenisfree_bp, url_prefix="/produtos")
+    app.register_blueprint(contas_bp, url_prefix="/conta")
 
     # ── Páginas de erro ────────────────────────────────────────────────────
     @app.errorhandler(404)
